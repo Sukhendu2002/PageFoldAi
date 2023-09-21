@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 const font = Lexend({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Page Fold",
+  title: "Page Fold AI",
   description: "Page Fold is a AI course genarator",
 };
 

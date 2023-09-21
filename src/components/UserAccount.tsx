@@ -22,7 +22,7 @@ type Props = {
 const UserAccount = (props: Props) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className="cursor-pointer">
         <Avatar>
           <AvatarImage
             src={props.user.image as string}
@@ -53,7 +53,7 @@ const UserAccount = (props: Props) => {
 
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          className="text-red-600 dark:text-red-400"
+          className="text-red-600 dark:text-red-400 cursor-pointer"
           onSelect={() => {
             signOut();
           }}
