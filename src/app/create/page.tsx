@@ -15,7 +15,7 @@ const page = async (props: Props) => {
       <h1 className="text-4xl font-bold">Create Crouse</h1>
 
       <div
-        className="flex flex-col items-center  min-h-screen py-2 w-[50%]"
+        className="flex flex-col items-center  min-h-screen sm:w-full sm:p-4 md:w-4/5 lg:w-3/5 xl:w-2/5"
         style={{ minHeight: "100vh" }}
       >
         <div className="flex flex-row p-4 mt-5 border-none bg-secondary rounded-xl">

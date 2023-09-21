@@ -23,20 +23,20 @@ type Input = z.infer<typeof createCorseSchema>;
 const CreateCourseForm = ({ isPro }: Props) => {
   const router = useRouter();
   const { toast } = useToast();
-//   const { mutate: createChapters, isLoading } = useMutation({
-//     mutationFn: async ({ title, chapters }: Input) => {
-//       const response = await axios.post("/api/course/createChapters", {
-//         title,
-//         chapters,
-//       });
-//       return response.data;
-//     },
-//   });
+  //   const { mutate: createChapters, isLoading } = useMutation({
+  //     mutationFn: async ({ title, chapters }: Input) => {
+  //       const response = await axios.post("/api/course/createChapters", {
+  //         title,
+  //         chapters,
+  //       });
+  //       return response.data;
+  //     },
+  //   });
   const form = useForm<Input>({
     resolver: zodResolver(createCorseSchema),
     defaultValues: {
       title: "",
-      chapters: ["", "", ""],
+      units: ["", "", ""],
     },
   });
 
@@ -69,7 +69,7 @@ const CreateCourseForm = ({ isPro }: Props) => {
           />
 
           <AnimatePresence>
-            {form.watch("chapters").map((_, index) => {
+            {form.watch("units").map((_, index) => {
               return (
                 <motion.div
                   key={index}
@@ -84,12 +84,12 @@ const CreateCourseForm = ({ isPro }: Props) => {
                   <FormField
                     key={index}
                     control={form.control}
-                    name={`chapters.${index}`}
+                    name={`units.${index}`}
                     render={({ field }) => {
                       return (
                         <FormItem className="flex flex-col items-start w-full sm:items-center sm:flex-row">
                           <FormLabel className="flex-[1] text-xl">
-                          Chapter {index + 1}
+                            Unit {index + 1}
                           </FormLabel>
                           <FormControl className="flex-[6]">
                             <Input
@@ -114,7 +114,7 @@ const CreateCourseForm = ({ isPro }: Props) => {
                 variant="secondary"
                 className="font-semibold"
                 onClick={() => {
-                  form.setValue("chapters", [...form.watch("chapters"), ""]);
+                  form.setValue("units", [...form.watch("units"), ""]);
                 }}
               >
                 Add Unit
@@ -126,10 +126,7 @@ const CreateCourseForm = ({ isPro }: Props) => {
                 variant="secondary"
                 className="font-semibold ml-2"
                 onClick={() => {
-                  form.setValue(
-                    "chapters",
-                    form.watch("chapters").slice(0, -1)
-                  );
+                  form.setValue("units", form.watch("units").slice(0, -1));
                 }}
               >
                 Remove Unit
