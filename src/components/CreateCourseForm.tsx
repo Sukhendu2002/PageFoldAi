@@ -23,15 +23,15 @@ type Input = z.infer<typeof createCorseSchema>;
 const CreateCourseForm = ({ isPro }: Props) => {
   const router = useRouter();
   const { toast } = useToast();
-  //   const { mutate: createChapters, isLoading } = useMutation({
-  //     mutationFn: async ({ title, chapters }: Input) => {
-  //       const response = await axios.post("/api/course/createChapters", {
-  //         title,
-  //         chapters,
-  //       });
-  //       return response.data;
-  //     },
-  //   });
+  const { mutate: createChapters, isLoading } = useMutation({
+    mutationFn: async ({ title, units }: Input) => {
+      const response = await axios.post("/api/course/create", {
+        title,
+        units,
+      });
+      return response.data;
+    },
+  });
   const form = useForm<Input>({
     resolver: zodResolver(createCorseSchema),
     defaultValues: {
@@ -41,7 +41,30 @@ const CreateCourseForm = ({ isPro }: Props) => {
   });
 
   function onSubmit(data: Input) {
-    console.log(data);
+    if (data.units.some((unit) => unit === "")) {
+      toast({
+        title: "Error",
+        description: "Please fill all the units",
+        variant: "destructive",
+      });
+      return;
+    }
+    createChapters(data, {
+      onSuccess: ({ course_id }) => {
+        toast({
+          title: "Success",
+          description: "Course created successfully",
+        });
+        router.push(`/create/${course_id}`);
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: "Something went wrong",
+          variant: "destructive",
+        });
+      },
+    });
   }
 
   form.watch();
@@ -136,7 +159,7 @@ const CreateCourseForm = ({ isPro }: Props) => {
             <Separator className="flex-[1]" />
           </div>
           <Button
-            // disabled={isLoading}
+            disabled={isLoading}
             type="submit"
             className="w-full mt-6"
             size="lg"
