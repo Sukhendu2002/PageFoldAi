@@ -10,7 +10,11 @@ const Navbar = async (props: Props) => {
   const session = await getAuthSession();
 
   return (
-    <nav className="fixed inset-x-0 top-0  z-[10] h-fit border-b  py-2">
+    <nav
+      className="fixed inset-x-0 top-0  z-[10] h-fit border-b  py-2
+      bg-white dark:bg-zinc-900 dark:border-zinc-50
+    "
+    >
       <div
         className="max-w-6xl
                 mx-auto
