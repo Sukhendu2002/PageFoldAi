@@ -25,7 +25,7 @@ const Navbar = async (props: Props) => {
                 items-center
                 justify-between"
       >
-        <Link href="/">
+        <Link href={session?.user ? "/courses" : "/"}>
           <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
             PageFoldAi
           </p>
