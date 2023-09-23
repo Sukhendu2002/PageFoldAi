@@ -1,9 +1,9 @@
 "use client";
-import { Chapter } from "@prisma/client";
-import React from "react";
 import { cn } from "@/lib/utils";
+import { Chapter } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import React from "react";
 import { useToast } from "./ui/use-toast";
 import { Loader2 } from "lucide-react";
 
@@ -19,9 +19,19 @@ export type ChapterCardHandler = {
 };
 
 const ChapterCard = React.forwardRef<ChapterCardHandler, Props>(
-  ({ chapter, chapterIndex, completedChapters, setCompletedChapters }, ref) => {
+  ({ chapter, chapterIndex, setCompletedChapters, completedChapters }, ref) => {
     const { toast } = useToast();
-    const addChapterIdtoSet = React.useCallback(() => {
+    const [success, setSuccess] = React.useState<boolean | null>(null);
+    const { mutate: getChapterInfo, isLoading } = useMutation({
+      mutationFn: async () => {
+        const response = await axios.post("/api/chapter/getInfo", {
+          chapterId: chapter.id,
+        });
+        return response.data;
+      },
+    });
+
+    const addChapterIdToSet = React.useCallback(() => {
       setCompletedChapters((prev) => {
         const newSet = new Set(prev);
         newSet.add(chapter.id);
@@ -32,64 +42,50 @@ const ChapterCard = React.forwardRef<ChapterCardHandler, Props>(
     React.useEffect(() => {
       if (chapter.videoId) {
         setSuccess(true);
-        addChapterIdtoSet();
+        addChapterIdToSet;
       }
-    }, [chapter, addChapterIdtoSet]);
+    }, [chapter, addChapterIdToSet]);
 
     React.useImperativeHandle(ref, () => ({
       async triggerLoad() {
         if (chapter.videoId) {
-          addChapterIdtoSet();
+          addChapterIdToSet();
           return;
         }
         getChapterInfo(undefined, {
           onSuccess: () => {
             setSuccess(true);
-            addChapterIdtoSet();
+            addChapterIdToSet();
           },
           onError: (error) => {
-            console.log(error);
+            console.error(error);
             setSuccess(false);
             toast({
               title: "Error",
-              description: "There was an error loading the chapter",
+              description: "There was an error loading your chapter",
               variant: "destructive",
             });
-            addChapterIdtoSet();
+            addChapterIdToSet();
           },
         });
       },
     }));
-    const [success, setSuccess] = React.useState<boolean | null>(null);
-    const { mutate: getChapterInfo, isLoading } = useMutation({
-      mutationFn: async () => {
-        const response = await axios.post("/api/chapter/getInfo", {
-          chapterId: chapter.id,
-        });
-        return response.data;
-      },
-    });
     return (
       <div
         key={chapter.id}
-        className={cn("flex items-center mt-2 py-1  rounded-sm", {
+        className={cn("px-4 py-2 mt-2 rounded flex justify-between", {
           "bg-secondary": success === null,
-          "bg-green-500": success === true,
           "bg-red-500": success === false,
+          "bg-green-500": success === true,
         })}
       >
-        <h5
-          className="text-lg 
-        ml-4
-      "
-        >
-          {chapter.name}
-        </h5>
-        {isLoading && <Loader2 className="animate-spin w-6 h-6 ml-4" />}
+        <h5>{chapter.name}</h5>
+        {isLoading && <Loader2 className="animate-spin" />}
       </div>
     );
   }
 );
 
 ChapterCard.displayName = "ChapterCard";
+
 export default ChapterCard;

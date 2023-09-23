@@ -85,6 +85,9 @@ export async function strict_output(
 
       if (list_input) {
         if (!Array.isArray(output)) {
+          //make it into a list
+          // console.log(output);
+          output = [output];
           throw new Error("Output format not in an array of json");
         }
       } else {
