@@ -43,7 +43,7 @@ export async function POST(req: Request, res: Response) {
         transcript,
       { summary: "summary of the transcript" }
     );
-    console.log(summary);
+    // console.log(summary);
 
     // const questions = await getQuestionsFromTranscript(
     //   transcript,

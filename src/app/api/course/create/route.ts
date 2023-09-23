@@ -3,7 +3,6 @@ import { createCorseSchema } from "@/validators/course";
 import { ZodError } from "zod";
 import { strict_output } from "@/lib/gpt";
 import { prisma } from "@/lib/db";
-import { getAuthSession } from "@/lib/auth";
 // /api/course/create
 export async function POST(req: Request, res: Response) {
   try {
@@ -12,7 +11,9 @@ export async function POST(req: Request, res: Response) {
     //   return new NextResponse("unauthorised", { status: 401 });
     // }
     const body = await req.json();
+    console.log(body);
     const { title, units } = createCorseSchema.parse(body);
+    const { userId } = body;
     type outputUnits = {
       title: string;
       chapters: {
@@ -57,6 +58,17 @@ export async function POST(req: Request, res: Response) {
         }),
       });
     }
+
+    const user = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        credits: {
+          decrement: 1,
+        },
+      },
+    });
 
     return NextResponse.json({ course_id: course.id });
   } catch (error) {

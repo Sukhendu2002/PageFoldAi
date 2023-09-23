@@ -27,6 +27,7 @@ const CoursePage = async ({ params: { slug } }: Props) => {
       },
     },
   });
+
   if (!course) {
     return redirect("/gallery");
   }
@@ -55,7 +56,6 @@ const CoursePage = async ({ params: { slug } }: Props) => {
               unit={unit}
               unitIndex={unitIndex}
             />
-            {/* <QuizCards chapter={chapter} /> */}
           </div>
 
           <div className="flex-[1] h-[1px] mt-4 text-gray-500 bg-gray-500" />

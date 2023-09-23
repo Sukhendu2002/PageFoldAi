@@ -41,8 +41,7 @@ const page = async ({ params: { courseId } }: Props) => {
       <div className="flex p-4 mt-6 rounded-sm bg-secondary ">
         <Info className="w-6 h-6 mr-4 text-primary" />
         <div>
-          We genarated chapters for each one of your units. Look over them and
-          click the button to confirm and continue.
+          If some unit will not generated then refresh the page and try again.
         </div>
       </div>
       <ConfirmChapters course={course} />

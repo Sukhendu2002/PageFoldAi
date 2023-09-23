@@ -1,5 +1,7 @@
 import { Chapter, Unit } from "@prisma/client";
 import React from "react";
+import { searchYoutube } from "@/lib/youtube";
+import { prisma } from "@/lib/db";
 
 type Props = {
   chapter: Chapter;
@@ -8,12 +10,23 @@ type Props = {
   chapterIndex: number;
 };
 
-const MainVideoSummary = ({
+const MainVideoSummary = async ({
   unit,
   unitIndex,
   chapter,
   chapterIndex,
 }: Props) => {
+  if (!chapter.videoId) {
+    console.log("searching for video id");
+    const videoId = await searchYoutube(`${chapter.name} ${unit.name}`);
+    console.log("videoId", videoId);
+    if (videoId) {
+      await prisma.chapter.update({
+        where: { id: chapter.id },
+        data: { videoId },
+      });
+    }
+  }
   return (
     <div className="flex-[2] ">
       <h4 className="text-sm uppercase text-secondary-foreground/60">
