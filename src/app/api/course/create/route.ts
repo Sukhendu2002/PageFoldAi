@@ -37,6 +37,13 @@ export async function POST(req: Request, res: Response) {
     const course = await prisma.course.create({
       data: {
         name: title,
+        userId: userId,
+      },
+    });
+
+    const newCourse = await prisma.course.findUnique({
+      where: {
+        id: course.id,
       },
     });
 

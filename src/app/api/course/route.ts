@@ -11,13 +11,18 @@ export async function POST(req: Request, res: Response) {
     const body = await req.json();
     const { userId } = bodyParser.parse(body);
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.course.findMany({
       where: {
-        id: userId,
+        userId: userId,
       },
     });
-
-    console.log(user);
+    return NextResponse.json(
+      {
+        success: true,
+        data: user,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
     if (error instanceof z.ZodError) {

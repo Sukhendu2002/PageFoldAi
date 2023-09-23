@@ -1,7 +1,8 @@
 import React from "react";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import axios from "axios";
+import CourseList from "@/components/CourseList";
+
 
 type Props = {};
 
@@ -11,13 +12,14 @@ const page = async (props: Props) => {
     return redirect("/");
   }
 
-  // const getData = async () => {
-  //   const res = await axios.get("/api/courses");
-  //   console.log(res);
-  // };
-  // getData();
-
-  return <div>page</div>;
+  return (
+    <div className="flex flex-col items-start max-w-xl px-8 mx-auto my-16 sm:px-0">
+      <h1 className="self-center text-3xl font-bold text-center sm:text-4xl">
+        My Courses
+      </h1>
+      <CourseList userId={session.user.id} />
+    </div>
+  );
 };
 
 export default page;

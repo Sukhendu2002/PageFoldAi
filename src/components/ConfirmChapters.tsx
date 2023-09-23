@@ -27,6 +27,7 @@ const ConfirmChapters = ({ course }: Props) => {
   const [completedChapters, setCompletedChapters] = React.useState<Set<String>>(
     new Set()
   );
+  const [allGood, setAllGood] = React.useState(false);
   const totalChaptersCount = React.useMemo(() => {
     return course.units.reduce((acc, unit) => {
       return acc + unit.chapters.length;
