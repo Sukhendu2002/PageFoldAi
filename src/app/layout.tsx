@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 const font = Lexend({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Page Fold AI",
+  title: "PageFoldAI",
   description: "Page Fold is a AI course genarator",
 };
 

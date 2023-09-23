@@ -16,7 +16,7 @@ const MainVideoSummary = async ({
   chapter,
   chapterIndex,
 }: Props) => {
-  if (!chapter.videoId) {
+  if (!chapter.videoId || chapter.videoId === "") {
     console.log("searching for video id");
     const videoId = await searchYoutube(`${chapter.name} ${unit.name}`);
     console.log("videoId", videoId);
