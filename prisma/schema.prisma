@@ -63,7 +63,6 @@ model Unit{
   courseId String
   name String
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
   chapters Chapter[]
 
   @@index([courseId], name: "courseId")

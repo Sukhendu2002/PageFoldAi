@@ -59,9 +59,6 @@ export async function POST(req: Request, res: Response) {
       });
     }
 
-    //update the courses userId
-    
-
     const user = await prisma.user.update({
       where: {
         id: userId,
